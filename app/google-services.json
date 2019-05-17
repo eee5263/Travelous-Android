@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "940592029948",
+    "firebase_url": "https://accompany-62902.firebaseio.com",
+    "project_id": "accompany-62902",
+    "storage_bucket": "accompany-62902.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:940592029948:android:b3dfd57d3abe1cb7",
+        "android_client_info": {
+          "package_name": "com.crescend.accompany"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "940592029948-sbcf1857hf76fd0lgb7cj5iclukqjcqq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.crescend.accompany",
+            "certificate_hash": "72d7d856311ecc07ee61226c85ef39fc148febad"
+          }
+        },
+        {
+          "client_id": "940592029948-cama0ojnu914754eqvo6ugi1sehlot9e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeJ6yS_kfD1iywVvSXfsLLJnRgiy_Zoxw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "940592029948-cama0ojnu914754eqvo6ugi1sehlot9e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
