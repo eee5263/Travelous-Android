@@ -9,13 +9,10 @@ public class ImageItem {
     public String userId;
     public String downloadUrl;
 
-    // these properties will not be saved to the database
     @Exclude
     public User user;
-
     @Exclude
     public int likes = 0;
-
     @Exclude
     public boolean hasLiked = false;
 

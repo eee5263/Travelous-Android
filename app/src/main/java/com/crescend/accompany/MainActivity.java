@@ -45,11 +45,8 @@ public class MainActivity extends AppCompatActivity {
     private LoginButton buttonFacebook;
     private CircleImageView circleImageView;
     private TextView txtName,txtEmail;
-
     private CallbackManager callbackManager;
-
     private String uid;
-
     private FirebaseAuth firebaseAuth;
 
     @Override
