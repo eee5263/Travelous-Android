@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "940592029948-31h2j1n0n64fc6i098cieeahf7ae3p0j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.crescend.accompany",
+            "certificate_hash": "14091e11307e08f2efe4c6658af501e340fb9d54"
+          }
+        },
+        {
           "client_id": "940592029948-sbcf1857hf76fd0lgb7cj5iclukqjcqq.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

@@ -39,6 +39,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Intent intent = new Intent(MainActivity.this, PostActivity.class);
+        startActivity(intent);
+
         loginButton = findViewById(R.id.login_button);
         txtName = findViewById(R.id.profile_name);
         txtEmail = findViewById(R.id.profile_email);
@@ -52,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult)
             {
-
             }
 
             @Override
