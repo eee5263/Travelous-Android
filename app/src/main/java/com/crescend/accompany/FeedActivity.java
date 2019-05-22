@@ -1,8 +1,7 @@
 package com.crescend.accompany;
-
+import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.media.Image;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -12,8 +11,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
-
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -27,6 +26,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -36,12 +36,13 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class FeedActivity extends AppCompatActivity {
-    FirebaseUser fbUser;
-    DatabaseReference database;
-    RecyclerView recyclerView;
-    RecyclerView.LayoutManager mLayoutManager;
-    ImageAdapter mAdapter;
-    ArrayList<ImageItem> images = new ArrayList<>();
+
+    private FirebaseUser fbUser;
+    private DatabaseReference database;
+    private RecyclerView recyclerView;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private ImageAdapter mAdapter;
+    private ArrayList<ImageItem> images = new ArrayList<>();
 
     static final int RC_PERMISSION_READ_EXTERNAL_STORAGE = 1;
     static final int RC_IMAGE_GALLERY = 2;
@@ -52,11 +53,18 @@ public class FeedActivity extends AppCompatActivity {
         setContentView(R.layout.activity_feed);
 
         fbUser = FirebaseAuth.getInstance().getCurrentUser();
+        database = FirebaseDatabase.getInstance().getReference();
+
         if (fbUser == null) {
             finish();
         }
-
-        database = FirebaseDatabase.getInstance().getReference();
+        else {
+            String token = FirebaseInstanceId.getInstance().getToken();
+            // save the user info in the database to users/UID/
+            // we'll use the UID as part of the path
+            User user = new User(fbUser.getUid(), fbUser.getDisplayName(), token);
+            database.child("users").child(user.uid).setValue(user);
+        }
 
         // Setup the RecyclerView
         recyclerView = findViewById(R.id.recyclerView);
@@ -79,7 +87,6 @@ public class FeedActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         User user = dataSnapshot.getValue(User.class);
-
                         image.user = user;
                         mAdapter.notifyDataSetChanged();
                     }
@@ -157,13 +164,17 @@ public class FeedActivity extends AppCompatActivity {
     }
 
     public void uploadImage(View view) {
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[] {android.Manifest.permission.READ_EXTERNAL_STORAGE}, RC_PERMISSION_READ_EXTERNAL_STORAGE);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, RC_PERMISSION_READ_EXTERNAL_STORAGE);
         } else {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.setType("image/*");
             startActivityForResult(intent, RC_IMAGE_GALLERY);
         }
+        /*
+        Intent intent = new Intent(FeedActivity.this, PostActivity.class);
+        startActivity(intent);
+        */
     }
 
     @Override
@@ -189,6 +200,7 @@ public class FeedActivity extends AppCompatActivity {
             String filename = fbUser.getUid() + "_" + timeStamp;
             StorageReference fileRef = userRef.child(filename);
 
+            //uploading data to firebase:
             UploadTask uploadTask = fileRef.putFile(uri);
             uploadTask.addOnFailureListener(new OnFailureListener() {
                 @Override
